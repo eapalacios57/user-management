@@ -1,6 +1,6 @@
 package com.pragma.usuarios.infraestructure.configuration.security;
 
-import com.pragma.usuarios.application.handler.CustomUserDetailsHandler;
+import com.pragma.usuarios.application.handler.impl.CustomUserDetailsHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityBeansInjector {
 
     private CustomUserDetailsHandler customUserDetailsHandler;
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -26,14 +27,14 @@ public class SecurityBeansInjector {
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationStrategy = new DaoAuthenticationProvider();
 
-        authenticationStrategy.setPasswordEncoder(passwordEncoder());
+        authenticationStrategy.setPasswordEncoder(passwordEncoder);
         authenticationStrategy.setUserDetailsService(customUserDetailsHandler);
         return authenticationStrategy;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
 
 }

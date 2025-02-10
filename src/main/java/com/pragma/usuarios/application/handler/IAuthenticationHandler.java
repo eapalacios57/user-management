@@ -8,8 +8,5 @@ public interface IAuthenticationHandler {
 
     public AuthenticationResponse login(AuthenticationRequest authenticationRequest);
 
-    boolean validateToken(String token);
-
-    UserDetailResponse getUserFromToken(String token);
 
 }

@@ -1,8 +1,10 @@
-package com.pragma.usuarios.application.handler.security;
+package com.pragma.usuarios.infraestructure.configuration.security;
 
 
 import com.pragma.usuarios.domain.api.IUserServicePort;
 import com.pragma.usuarios.domain.modelo.User;
+import com.pragma.usuarios.infraestructure.jwt.JwtUtils;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,11 +25,11 @@ import java.util.*;
 @AllArgsConstructor
 public class JwtAuthenticationFilterHandler extends OncePerRequestFilter {
 
-    private final JwtHandler jwtHandler;
+    private final JwtUtils jwtUtils;
     private  final IUserServicePort userServicePort;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, JwtException, IOException {
 
         String authorizationHeader = request.getHeader("Authorization");
         if(!StringUtils.hasText(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")){
@@ -36,7 +38,7 @@ public class JwtAuthenticationFilterHandler extends OncePerRequestFilter {
         }
 
         String token = authorizationHeader.split(" ")[1];
-        String username = jwtHandler.extractUsername(token);
+        String username = jwtUtils.extractUsername(token);
         User user = userServicePort.getUser(username);
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName()));

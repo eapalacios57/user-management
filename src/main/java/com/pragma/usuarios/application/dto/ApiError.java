@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class ApiError {
+public class ApiError<T> {
 
-    private String backendMessage;
+    private T backendMessage;
     private String message;
     private String url;
     private String method;

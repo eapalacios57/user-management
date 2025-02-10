@@ -9,9 +9,14 @@ public class UserDetailResponse {
 
     private Long id;
 
+    private String names;
+
     private String email;
+
+    private Long restaurantId;
+
+    private String phone;
 
     private String role;
 
-    private Boolean tokenValid;
 }

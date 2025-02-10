@@ -1,4 +1,4 @@
-package com.pragma.usuarios.application.handler;
+package com.pragma.usuarios.application.handler.impl;
 
 import com.pragma.usuarios.domain.api.IUserServicePort;
 import com.pragma.usuarios.domain.modelo.User;
